@@ -12,14 +12,17 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.google.mlkit.common.model.DownloadConditions
-import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.TranslatorOptions
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.Translator
 
 
 /**
- * A simple [Fragment] subclass.
+ * A Fragment responsible for handling text translation.
+ *
+ * This Fragment allows users to enter text in an EditText field and automatically translates it
+ * based on the selected source and target languages. It uses the ML Kit translator to perform
+ * translations.
  */
 class TranslationFragment : Fragment() {
     private lateinit var editTextTranslation: EditText
@@ -38,7 +41,7 @@ class TranslationFragment : Fragment() {
         // Initialize the translator
         val options = TranslatorOptions.Builder()
             .setSourceLanguage("en")
-            .setTargetLanguage("es")
+            .setTargetLanguage("de")
             .build()
         translator = Translation.getClient(options)
         var conditions = DownloadConditions.Builder()
@@ -99,7 +102,15 @@ class TranslationFragment : Fragment() {
             )
         })
     }
-
+    /**
+     * Translates the provided text using the ML Kit translator and updates the ViewModel.
+     *
+     * This function takes the input text, translates it using the configured translator, and
+     * updates the ViewModel's `translatedText` property with the translated result. It also
+     * handles translation failures by displaying an error message.
+     *
+     * @param textToTranslate The text to be translated.
+     */
     private fun translateText(textToTranslate: String) {
         // Use the ML Kit translator to translate the text
         translator.translate(textToTranslate)
@@ -113,7 +124,12 @@ class TranslationFragment : Fragment() {
                 Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
             }
     }
-
+    /**
+     * Performs cleanup when the view of this Fragment is being destroyed.
+     *
+     * This function is responsible for removing the translator from the Fragment's Lifecycle
+     * to avoid memory leaks and closing the translator to release resources.
+     */
     override fun onDestroyView() {
         // Remove the translator from the Fragment's Lifecycle to avoid leaks
         lifecycle.removeObserver(translator)

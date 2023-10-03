@@ -5,7 +5,13 @@ import android.os.Bundle
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
-
+/**
+ * The main activity of the translation app.
+ *
+ * This activity is responsible for managing user interactions and displaying translated text.
+ * It sets up listeners for radio buttons to select source and target languages and updates
+ * the ViewModel accordingly.
+ */
 class MainActivity : AppCompatActivity(){
     private lateinit var viewModel: TranslatorViewModel
 
@@ -36,7 +42,7 @@ class MainActivity : AppCompatActivity(){
             }
         }
         sourceRadioGroup.check(R.id.enSourceRadioButton)
-        targetRadioGroup.check(R.id.esTranslationRadioButton)
+        targetRadioGroup.check(R.id.gerTranslationRadioButton)
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
