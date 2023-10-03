@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Translator</string>
+
+    <string name="source">Sourec Language</string>
+    <string name="translation">Translation</string>
+
+    <string name="en">English</string>
+    <string name="es">Spanish</string>
+    <string name="ger">German</string>
+
+    <string name="hint">Write something...</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
