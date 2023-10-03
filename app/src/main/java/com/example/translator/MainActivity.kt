@@ -2,9 +2,9 @@ package com.example.translator
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.RadioGroup
-import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import com.example.translator.databinding.ActivityMainBinding
+
 /**
  * The main activity of the translation app.
  *
@@ -14,16 +14,19 @@ import androidx.lifecycle.ViewModelProvider
  */
 class MainActivity : AppCompatActivity(){
     private lateinit var viewModel: TranslatorViewModel
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         viewModel = ViewModelProvider(this).get(TranslatorViewModel::class.java)
 
-        val sourceRadioGroup = findViewById<RadioGroup>(R.id.sourceRadioGroup)
-        val targetRadioGroup = findViewById<RadioGroup>(R.id.translationRadioGroup)
-        val translatedTextView = findViewById<TextView>(R.id.translationTextView)
+        val sourceRadioGroup = binding.sourceRadioGroup
+        val targetRadioGroup = binding.translationRadioGroup
+        val translatedTextView = binding.translationTextView
 
         // Set up listeners to update the ViewModel with selected source and target languages
         sourceRadioGroup.setOnCheckedChangeListener { _, checkedId ->
@@ -53,6 +56,9 @@ class MainActivity : AppCompatActivity(){
             // Update the TextView with the translated text
             translatedTextView.text = translatedText
         })
-
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null // Avoid memory leaks
     }
 }

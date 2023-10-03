@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import com.example.translator.databinding.FragmentTranslationBinding
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.TranslatorOptions
 import com.google.mlkit.nl.translate.Translation
@@ -28,12 +29,15 @@ class TranslationFragment : Fragment() {
     private lateinit var editTextTranslation: EditText
     private lateinit var viewModel: TranslatorViewModel
     private lateinit var translator: Translator
+    private var _binding: FragmentTranslationBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_translation, container, false)
+        _binding = FragmentTranslationBinding.inflate(inflater, container, false)
+        val view = binding.root
 
         // Initialize UI components
         editTextTranslation = view.findViewById(R.id.editTextTranslation)
@@ -134,6 +138,7 @@ class TranslationFragment : Fragment() {
         // Remove the translator from the Fragment's Lifecycle to avoid leaks
         lifecycle.removeObserver(translator)
         translator.close()
+        _binding = null
         super.onDestroyView()
     }
 }
